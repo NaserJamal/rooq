@@ -2,10 +2,11 @@ Metadata-Version: 2.1
 Name: rooq
 Version: 0.1.0
 Summary: A wrapper on flake8 that uses GPT-4 to automatically fix code
-Home-page: https://github.com/yourusername/rooq
-Author: Your Name
-Author-email: your.email@example.com
-License: UNKNOWN
+Home-page: https://github.com/NaserJamal/rooq
+Author: NaserJamal
+Author-email: naser.dll@hotmail.com
+Author-linkedin: [Naser Jamal](https://www.linkedin.com/in/naserjamal/)
+License: MIT License
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
@@ -14,7 +15,7 @@ Description-Content-Type: text/markdown
 
 # Rooq
 
-Rooq is a wrapper on Flake8 that uses GPT-4 to automatically fix code to pass Flake8 tests.
+Rooq is a wrapper on Flake8 that uses GPT-4o mini to automatically fix code to pass Flake8 tests.
 
 ## Installation
 

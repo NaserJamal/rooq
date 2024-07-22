@@ -8,7 +8,7 @@ class SnakeGame:
         self.width = width
         self.height = height
         self.cell_size = 20
-        
+
         pygame.init()
         self.screen = pygame.display.set_mode((width, height))
         pygame.display.set_caption('Snake Game')
@@ -27,8 +27,12 @@ class SnakeGame:
     def generate_food(self):
         while True:
             food = (
-                random.randint(0, (self.width - self.cell_size) // self.cell_size) * self.cell_size,
-                random.randint(0, (self.height - self.cell_size) // self.cell_size) * self.cell_size
+                random.randint(
+                    0, (self.width - self.cell_size) // self.cell_size
+                )
+                * self.cell_size,
+                random.randint(0, (self.height - self.cell_size) // self.cell_size) 
+                * self.cell_size
             )
             if food not in self.snake:
                 return food

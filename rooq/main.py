@@ -1,4 +1,3 @@
-import re
 import os
 from .flake8_runner import run_flake8
 from .gpt_fixer import fix_code
@@ -18,6 +17,10 @@ def run_rooq(directory):
 
     for file_path, errors in flake8_output.items():
         print(f"Fixing issues in {file_path}")
+        print("Flake8 errors:")
+        for error in errors:
+            print(error)
+        
         with open(file_path, 'r') as file:
             original_code = file.read()
         
@@ -52,16 +55,6 @@ def show_diff(original, fixed):
         else:
             print(line)
 
-def process_fixed_code(fixed_code, original_code):
-    # Remove Python code block markers if present
-    fixed_code = re.sub(r'^```python\n|^```\n|```$', '', fixed_code, flags=re.MULTILINE).strip()
-    
-    # Ensure the indentation is preserved
-    original_indent = len(original_code) - len(original_code.lstrip())
-    fixed_code = ' ' * original_indent + fixed_code.lstrip()
-    
-    return fixed_code
-
 def parse_flake8_output(output):
     parts = output.split(':')
     file_path = parts[0]
@@ -78,9 +71,7 @@ def apply_fix(file_path, line_number, fixed_code):
     with open(file_path, 'r') as file:
         lines = file.readlines()
     
-    # Preserve the newline character from the original line
-    original_newline = lines[line_number - 1][-1] if lines[line_number - 1].endswith('\n') else '\n'
-    lines[line_number - 1] = fixed_code + original_newline
+    lines[line_number - 1] = fixed_code + '\n'
     
     with open(file_path, 'w') as file:
         file.writelines(lines)
