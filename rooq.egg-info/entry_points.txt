@@ -1,0 +1,3 @@
+[console_scripts]
+rooq = rooq.cli:main
+
