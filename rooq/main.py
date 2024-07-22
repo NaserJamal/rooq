@@ -31,29 +31,37 @@ def run_rooq(directory):
         for line_num, line_errors in errors_by_line.items():
             original_line = lines[line_num - 1]
             error_messages = '\n'.join(line_errors)
-            fixed_line = fix_code(original_line, error_messages)
+            print(f"\nProcessing line {line_num}:")
+            print("Original:", original_line.rstrip())
+            print("Errors:", error_messages)
+            fixed_code = fix_code(original_line, error_messages)
 
-            if fixed_line and fixed_line != original_line:
-                fixes.append((line_num, original_line, fixed_line))
-            elif fixed_line == original_line:
-                print(f"No changes needed for line {line_num}")
+            if fixed_code and fixed_code != original_line:
+                fixes.append((line_num, original_line, fixed_code))
+                print("Fixed:")
+                print(fixed_code.rstrip())
+            elif fixed_code == original_line:
+                print("No changes made by GPT")
             else:
-                print(f"Couldn't generate a fix for line {line_num}")
+                print("Couldn't generate a fix")
         
         if fixes:
             print("\nProposed fixes:")
             for line_num, original, fixed in fixes:
                 print(f"\nLine {line_num}:")
                 print("Original:", original.rstrip())
-                print("Fixed:   ", fixed.rstrip())
+                print("Fixed:")
+                print(fixed.rstrip())
             
             if input("\nApply all these fixes? (y/n): ").lower() == 'y':
-                for line_num, _, fixed_line in fixes:
-                    lines[line_num - 1] = fixed_line
+                # Apply fixes
+                new_lines = lines[:]
+                for line_num, _, fixed_code in fixes:
+                    new_lines[line_num - 1:line_num] = fixed_code.splitlines(True)
                 
                 # Write the fixed content back to the file
                 with open(file_path, 'w') as file:
-                    file.writelines(lines)
+                    file.writelines(new_lines)
                 print("All fixes applied.")
             else:
                 print("No fixes applied.")

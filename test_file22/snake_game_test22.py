@@ -25,12 +25,18 @@ class SnakeGame:
         self.game_over = False
         self.new_direction = None
 
-    def generate_food(self):
-        while True:
-            food = (random.randint(0, (self.width - self.cell_size) // self.cell_size) * self.cell_size,
-                    random.randint(0, (self.height - self.cell_size) // self.cell_size) * self.cell_size)
-            if food not in self.snake:
-                return food
+    # def generate_food(self):
+    #     while True:
+    #         food = (
+    #             random.randint(0, (self.width - self.cell_size) // 
+    #             random.randint(
+    #             0, (self.height - self.cell_size) // self.cell_size
+    #             ) * self.cell_size
+    #             random.randint(0, (self.height - self.cell_size) // self.cell_size) * self.cell_size
+    #         )
+    #         if food not in self.snake:
+    #             return food
+
 
     def step(self):
         if self.game_over:
@@ -71,16 +77,40 @@ class SnakeGame:
             self.new_direction = (1, 0)
 
     def get_state(self):
-        state = pygame.Surface((self.width, self.height))
+        state, (0, 255, 0), (*segment, self.cell_size, 
+        self.cell_size)
         state.fill((0, 0, 0))
-
-        # Draw snake
-        for segment in self.snake:
-            pygame.draw.rect(state, (0, 255, 0), (*segment, self.cell_size, self.cell_size))
+        state,
+        (255, 0, 0),
+        (*self.food, 
+        self.cell_size, 
+        self.cell_size)
+            pygame.draw.rect(
+            state, (0, 255, 0), (*segment, self.cell_size, self.cell_size)
+            )
+        state, 
+            self.screen, (0, 255, 0), (*segment, 
+            self.cell_size, self.cell_size)
+        (*self.food, self.cell_size, self.cell_size)
+        self.screen,
+        (255, 0, 0),
+        (*self.food, 
+        self.cell_size, 
+        self.cell_size)
 
         # Draw food
-        pygame.draw.rect(state, (255, 0, 0), (*self.food, self.cell_size, self.cell_size))
-
+            pygame.draw.rect(
+            self.screen, (0, 255, 0), (*segment, self.cell_size, self.cell_size)
+            )
+        pygame.draw.rect(
+            pygame.draw.rect(
+            self.screen, (0, 255, 0), (*segment, self.cell_size, self.cell_size)
+            )
+        pygame.draw.rect(
+        self.screen, (255, 0, 0), (*self.food, self.cell_size, self.cell_size)
+        )
+        (*self.food, self.cell_size, self.cell_size)
+        )
         return pygame.surfarray.array3d(state).transpose((1, 0, 2))
 
     def render(self):
