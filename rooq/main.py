@@ -1,4 +1,5 @@
 import os
+from collections import defaultdict
 from .flake8_runner import run_flake8
 from .gpt_fixer import fix_code
 from .config import ensure_api_key
@@ -17,61 +18,51 @@ def run_rooq(directory):
 
     for file_path, errors in flake8_output.items():
         print(f"Fixing issues in {file_path}")
-        print("Flake8 errors:")
-        for error in errors:
-            print(error)
         
         with open(file_path, 'r') as file:
-            original_code = file.read()
+            lines = file.readlines()
         
-        error_messages = '\n'.join(errors)
-        fixed_code = fix_code(original_code, error_messages)
+        errors_by_line = defaultdict(list)
+        for error in errors:
+            line_num, col, error_msg = parse_flake8_error(error)
+            errors_by_line[line_num].append(f"{col}: {error_msg}")
+        
+        fixes = []
+        for line_num, line_errors in errors_by_line.items():
+            original_line = lines[line_num - 1]
+            error_messages = '\n'.join(line_errors)
+            fixed_line = fix_code(original_line, error_messages)
 
-        if fixed_code:
-            print("\nDo you want to see a diff of the changes? (y/n): ")
-            if input().lower() == 'y':
-                show_diff(original_code, fixed_code)
-            
-            if input("Apply this fix? (y/n): ").lower() == 'y':
-                with open(file_path, 'w') as file:
-                    file.write(fixed_code)
-                print("Fix applied.")
+            if fixed_line and fixed_line != original_line:
+                fixes.append((line_num, original_line, fixed_line))
+            elif fixed_line == original_line:
+                print(f"No changes needed for line {line_num}")
             else:
-                print("Fix not applied.")
+                print(f"Couldn't generate a fix for line {line_num}")
+        
+        if fixes:
+            print("\nProposed fixes:")
+            for line_num, original, fixed in fixes:
+                print(f"\nLine {line_num}:")
+                print("Original:", original.rstrip())
+                print("Fixed:   ", fixed.rstrip())
+            
+            if input("\nApply all these fixes? (y/n): ").lower() == 'y':
+                for line_num, _, fixed_line in fixes:
+                    lines[line_num - 1] = fixed_line
+                
+                # Write the fixed content back to the file
+                with open(file_path, 'w') as file:
+                    file.writelines(lines)
+                print("All fixes applied.")
+            else:
+                print("No fixes applied.")
         else:
-            print(f"Couldn't generate a fix for {file_path}")
+            print("No fixes were generated.")
 
-def show_diff(original, fixed):
-    import difflib
-    d = difflib.Differ()
-    diff = list(d.compare(original.splitlines(), fixed.splitlines()))
-    for line in diff:
-        if line.startswith('+'):
-            print('\033[92m' + line + '\033[0m')  # Green for additions
-        elif line.startswith('-'):
-            print('\033[91m' + line + '\033[0m')  # Red for deletions
-        elif line.startswith('?'):
-            print('\033[94m' + line + '\033[0m')  # Blue for changes
-        else:
-            print(line)
-
-def parse_flake8_output(output):
-    parts = output.split(':')
-    file_path = parts[0]
-    line_number = int(parts[1])
-    error_message = ':'.join(parts[3:]).strip()
-    return file_path, line_number, error_message
-
-def get_code_from_file(file_path, line_number):
-    with open(file_path, 'r') as file:
-        lines = file.readlines()
-        return lines[line_number - 1].strip()
-
-def apply_fix(file_path, line_number, fixed_code):
-    with open(file_path, 'r') as file:
-        lines = file.readlines()
-    
-    lines[line_number - 1] = fixed_code + '\n'
-    
-    with open(file_path, 'w') as file:
-        file.writelines(lines)
+def parse_flake8_error(error):
+    parts = error.split(':')
+    line_num = int(parts[0])
+    col = parts[1]
+    error_msg = ':'.join(parts[2:]).strip()
+    return line_num, col, error_msg
