@@ -5,11 +5,13 @@ Rooq is a wrapper on Flake8 that uses GPT-4o mini to automatically fix code to p
 ## Installation
 
 You can install Rooq using pip:
+
 pip install rooq
 
 ## Usage
 
 To use Rooq, simply run the following command in your terminal:
+
 rooq [DIRECTORY]
 
 If no directory is specified, Rooq will run on the current directory.
