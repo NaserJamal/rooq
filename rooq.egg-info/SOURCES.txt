@@ -1,7 +1,10 @@
+.rooq_env
 README.md
+requirements.txt
 setup.py
 rooq/__init__.py
 rooq/cli.py
+rooq/config.py
 rooq/flake8_runner.py
 rooq/gpt_fixer.py
 rooq/main.py
@@ -11,3 +14,13 @@ rooq.egg-info/dependency_links.txt
 rooq.egg-info/entry_points.txt
 rooq.egg-info/requires.txt
 rooq.egg-info/top_level.txt
+rooq/__pycache__/__init__.cpython-310.pyc
+rooq/__pycache__/__init__.cpython-312.pyc
+rooq/__pycache__/cli.cpython-310.pyc
+rooq/__pycache__/config.cpython-310.pyc
+rooq/__pycache__/flake8_runner.cpython-310.pyc
+rooq/__pycache__/flake8_runner.cpython-312.pyc
+rooq/__pycache__/gpt_fixer.cpython-310.pyc
+rooq/__pycache__/gpt_fixer.cpython-312.pyc
+rooq/__pycache__/main.cpython-310.pyc
+rooq/__pycache__/main.cpython-312.pyc

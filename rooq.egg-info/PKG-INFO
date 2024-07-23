@@ -1,12 +1,11 @@
 Metadata-Version: 2.1
 Name: rooq
 Version: 0.1.0
-Summary: A wrapper on flake8 that uses GPT-4 to automatically fix code
+Summary: A wrapper on flake8 that uses GPT-4o mini to automatically fix code
 Home-page: https://github.com/NaserJamal/rooq
-Author: NaserJamal
+Author: Naser Jamal
 Author-email: naser.dll@hotmail.com
-Author-linkedin: [Naser Jamal](https://www.linkedin.com/in/naserjamal/)
-License: MIT License
+License: UNKNOWN
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
@@ -15,18 +14,22 @@ Description-Content-Type: text/markdown
 
 # Rooq
 
+STILL UNDER DEVELOPMENT, NOT RECOMMENDED TO USE NOW
+
 Rooq is a wrapper on Flake8 that uses GPT-4o mini to automatically fix code to pass Flake8 tests.
 
 ## Installation
 
 You can install Rooq using pip:
+```python
 pip install rooq
-
+```
 ## Usage
 
 To use Rooq, simply run the following command in your terminal:
+```python
 rooq [DIRECTORY]
-
+```
 If no directory is specified, Rooq will run on the current directory.
 
 ## How it works

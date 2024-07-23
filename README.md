@@ -1,5 +1,7 @@
 # Rooq
 
+STILL UNDER DEVELOPMENT, NOT RECOMMENDED TO USE NOW
+
 Rooq is a wrapper on Flake8 that uses GPT-4o mini to automatically fix code to pass Flake8 tests.
 
 ## Installation
