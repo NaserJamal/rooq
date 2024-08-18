@@ -2,6 +2,8 @@
 
 rooq is a simple file structure creator with a web-based UI.
 
+![demoGit](https://github.com/user-attachments/assets/a11c92a7-97fd-40aa-b9e5-098cb19e6820)
+
 ## Installation
 
 ```python
