@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, render_template
 import os
 import re
 import webbrowser
+import socket
 from threading import Timer
 
 app = Flask(__name__)
@@ -61,12 +62,21 @@ def create_files():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-def open_browser():
-    webbrowser.open_new('http://127.0.0.1:5000/')
+def find_free_port():
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind(('', 0))
+        s.listen(1)
+        port = s.getsockname()[1]
+    return port
+
+def open_browser(port):
+    webbrowser.open_new(f'http://127.0.0.1:{port}/')
 
 def run_app():
-    Timer(1, open_browser).start()
-    app.run(debug=True, use_reloader=False)
+    port = find_free_port()
+    print(f"Starting server on port {port}")
+    open_browser(port)
+    app.run(port=port, debug=True, use_reloader=False)
 
 if __name__ == '__main__':
     run_app()
